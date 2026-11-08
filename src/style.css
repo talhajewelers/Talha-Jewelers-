@@ -16,5 +16,5 @@
 .family-person img{width:150px;height:150px}
 @media(max-width:700px){
   .family-person{max-width:150px}
-  .family-person img{width:128px;height:128px}
+  .family-person img{width:140px;height:140px}
 }
