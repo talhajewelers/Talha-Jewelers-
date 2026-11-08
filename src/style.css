@@ -11,3 +11,10 @@
 .family-person span{font-family:serif;font-size:13px;color:var(--cream);line-height:1.6}
 .rate-card:last-child{grid-column:1/-1}
 @media(max-width:700px){.header-logo-photo{width:38px;height:38px}.family-portraits{gap:14px;margin:16px 0 20px}.family-person img{width:94px;height:94px}.family-person span{font-size:12px}}
+/* Larger family portraits */
+.family-person{max-width:170px}
+.family-person img{width:150px;height:150px}
+@media(max-width:700px){
+  .family-person{max-width:150px}
+  .family-person img{width:128px;height:128px}
+}
