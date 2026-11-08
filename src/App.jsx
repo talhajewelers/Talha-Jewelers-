@@ -26,7 +26,7 @@ function App() {
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState({ name:'', category:'Rings', price:'', description:'', is_published:true })
   const [photos, setPhotos] = useState([])
-  const [rateForm, setRateForm] = useState({ gold:'', silver:'' })
+  const [rateForm, setRateForm] = useState({ gold:'', gold22k:'', silver:'' })
   const [notice, setNotice] = useState('')
 
   const filtered = useMemo(() => category === 'All' ? products : products.filter(p => p.category === category), [products, category])
@@ -54,7 +54,7 @@ function App() {
   useEffect(() => {
     const latest = {}
     rates.forEach(r => { latest[String(r.metal || '').toLowerCase()] ??= r })
-    setRateForm({ gold: latest.gold?.price_per_tola ?? '', silver: latest.silver?.price_per_tola ?? '' })
+    setRateForm({ gold: latest.gold?.price_per_tola ?? '', gold22k: latest.gold_22k?.price_per_tola ?? '', silver: latest.silver?.price_per_tola ?? '' })
   }, [rates])
 
   const publishedProducts = products.filter(p => p.is_published)
@@ -133,7 +133,7 @@ function App() {
   async function saveRates(e) {
     e.preventDefault(); setBusy(true); setNotice('')
     try {
-      for (const [metal, value] of [['gold', rateForm.gold], ['silver', rateForm.silver]]) {
+      for (const [metal, value] of [['gold', rateForm.gold], ['gold_22k', rateForm.gold22k], ['silver', rateForm.silver]]) {
         if (value === '' || Number(value) <= 0) continue
         const { error } = await supabase.from('metal_rates').insert({ metal, price_per_tola:Number(value), updated_at:new Date().toISOString() })
         if (error) throw error
@@ -172,7 +172,7 @@ function App() {
         </article>)}</div> : <div className="empty"><Gem size={28}/><h3>Our collection is being prepared.</h3><p>New pieces will appear here soon. Please check back.</p></div>}
       </section>
 
-      <section className="rates section"><div><p className="eyebrow">MARKET WATCH</p><h2>Metal rates<span>.</span></h2><p className="rates-note">Indicative shop-updated rates per tola. Please confirm before purchase.</p></div><div className="rate-cards">{['gold','silver'].map(m => { const r = rates.find(x => String(x.metal).toLowerCase()===m); return <div className="rate-card" key={m}><span>{m.toUpperCase()}</span><b>{r ? money(r.price_per_tola) : '—'}</b><small>{r ? `Updated ${new Date(r.updated_at).toLocaleDateString()}` : 'Rate not yet added'}</small></div> })}</div></section>
+      <section className="rates section"><div><p className="eyebrow">MARKET WATCH</p><h2>Metal rates<span>.</span></h2><p className="rates-note">Indicative shop-updated rates per tola. Please confirm before purchase.</p></div><div className="rate-cards">{[{key:'gold',label:'24K GOLD'},{key:'gold_22k',label:'22K GOLD'},{key:'silver',label:'SILVER'}].map(m => { const r = rates.find(x => String(x.metal).toLowerCase()===m.key); return <div className="rate-card" key={m.key}><span>{m.label}</span><b>{r ? money(r.price_per_tola) : '—'}</b><small>{r ? `Updated ${new Date(r.updated_at).toLocaleDateString()}` : 'Rate not yet added'}</small></div> })}</div></section>
 
       <section className="about section" id="about"><div className="about-art"><div className="about-seal"><Gem size={42}/><span>EST. IN<br/>MURIDKE</span></div></div><div className="about-copy"><p className="eyebrow">A NAME YOU CAN TRUST</p><h2>More than jewellery.<br/><em>A lasting memory.</em></h2><p>At Talha Jewelers, we believe every piece carries a story. We are here to help you find jewellery for the moments that matter — with personal attention and care.</p><div className="address"><span>VISIT OUR SHOP</span><p>{SHOP.address}</p></div><a className="text-link" href={waLink()} target="_blank" rel="noreferrer">Get in touch <ArrowUpRight size={15}/></a></div></section>
     </main>
@@ -185,7 +185,7 @@ function App() {
       {!session ? <form className="login-form" onSubmit={login}><p>Sign in with your authorised shop account.</p><label>Email<input type="email" value={email} onChange={e=>setEmail(e.target.value)} required autoComplete="username"/></label><label>Password<input type="password" value={password} onChange={e=>setPassword(e.target.value)} required autoComplete="current-password"/></label>{loginError && <p className="error">{loginError}</p>}<button className="gold-btn full" disabled={busy}>{busy?'Signing in…':'Sign in'}</button></form> :
       <div className="admin-content"><div className="admin-toolbar"><span>Signed in as {session.user.email}</span><button className="outline-btn" onClick={logout}><LogOut size={14}/> Sign out</button></div>
         <form className="admin-form" onSubmit={saveProduct}><h3>{editing?'Edit product':'Add a product'}</h3><div className="form-grid"><label>Product name<input value={form.name} onChange={e=>setField('name',e.target.value)} required/></label><label>Category<select value={form.category} onChange={e=>setField('category',e.target.value)}>{categories.filter(c=>c!=='All').map(c=><option key={c}>{c}</option>)}</select></label><label>Price (PKR)<input type="number" min="0" value={form.price} onChange={e=>setField('price',e.target.value)} required/></label><label className="file-label">Product photos<input type="file" accept="image/*" multiple onChange={e=>setPhotos(Array.from(e.target.files||[]))}/><small>{photos.length ? `${photos.length} photo(s) selected` : 'Choose multiple photos from your phone'}</small></label></div><label>Description<textarea rows="3" value={form.description} onChange={e=>setField('description',e.target.value)} placeholder="Add product details…"/></label><label className="check-row"><input type="checkbox" checked={form.is_published} onChange={e=>setField('is_published',e.target.checked)}/> Publish on customer website</label><div className="form-actions"><button className="gold-btn" disabled={busy}><Upload size={15}/>{busy?'Saving…':editing?'Save changes':'Add product'}</button>{editing && <button type="button" className="outline-btn" onClick={startNew}>Cancel edit</button>}</div></form>
-        <form className="admin-form rates-admin" onSubmit={saveRates}><h3>Update metal rates (PKR / tola)</h3><div className="form-grid"><label>Gold<input type="number" min="1" value={rateForm.gold} onChange={e=>setRateForm(f=>({...f,gold:e.target.value}))} placeholder="Gold rate"/></label><label>Silver<input type="number" min="1" value={rateForm.silver} onChange={e=>setRateForm(f=>({...f,silver:e.target.value}))} placeholder="Silver rate"/></label></div><button className="outline-btn" disabled={busy}><RefreshCw size={14}/> Save rates</button></form>
+        <form className="admin-form rates-admin" onSubmit={saveRates}><h3>Update metal rates (PKR / tola)</h3><div className="form-grid"><label>24K Gold<input type="number" min="1" value={rateForm.gold} onChange={e=>setRateForm(f=>({...f,gold:e.target.value}))} placeholder="24K Gold rate"/></label><label>22K Gold<input type="number" min="1" value={rateForm.gold22k} onChange={e=>setRateForm(f=>({...f,gold22k:e.target.value}))} placeholder="22K Gold rate"/></label><label>Silver<input type="number" min="1" value={rateForm.silver} onChange={e=>setRateForm(f=>({...f,silver:e.target.value}))} placeholder="Silver rate"/></label></div><button className="outline-btn" disabled={busy}><RefreshCw size={14}/> Save rates</button></form>
         <div className="admin-list"><h3>Products ({products.length})</h3>{products.map(p=><div className="admin-product" key={p.id}><div className="admin-thumb">{p.images?.[0]?<img src={p.images[0]} alt=""/>:<Gem size={20}/>}</div><div className="admin-product-name"><b>{p.name}</b><small>{money(p.price)} · {p.category} · {p.is_published?'Published':'Hidden'}</small></div><button title={p.is_published?'Hide':'Publish'} onClick={()=>togglePublish(p)}>{p.is_published?<EyeOff size={17}/>:<Eye size={17}/>}</button><button title="Edit" onClick={()=>startEdit(p)}><Pencil size={17}/></button><button title="Delete" onClick={()=>deleteProduct(p)}><Trash2 size={17}/></button></div>)}</div>
       </div>}
       {notice && <p className="notice">{notice}</p>}
