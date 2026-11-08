@@ -145,7 +145,7 @@ function App() {
 
   return <div className="app">
     <header className="header">
-      <a className="brand header-brand" href="#home" onClick={() => setMobileMenu(false)}><img className="header-logo-photo" src="/talha-portrait.jpg" alt="Talha Islam"/><span><b>TALHA</b><small>JEWELERS</small></span></a>
+      <a className="brand header-brand" href="#home" onClick={() => setMobileMenu(false)}><img className="header-logo-photo" src=" /talha-portrait.png" alt="Talha Islam"/><span><b>TALHA</b><small>JEWELERS</small></span></a>
       <nav className={mobileMenu ? 'nav open' : 'nav'}>
         <a href="#home" onClick={() => setMobileMenu(false)}>Home</a><a href="#collection" onClick={() => setMobileMenu(false)}>Collection</a><a href="#about" onClick={() => setMobileMenu(false)}>Our Story</a>
         <a className="nav-contact" href={waLink()} target="_blank" rel="noreferrer">Contact <ArrowUpRight size={14}/></a>
@@ -157,7 +157,7 @@ function App() {
 
     <main>
       <section className="hero" id="home">
-        <div className="hero-copy"><p className="eyebrow"><span/> EST. WITH ELEGANCE</p><div className="family-portraits"><div className="family-person"><img src="/ustad-amjad-portrait.jpg" alt="Ustad Amjad Islam Zargar"/><span>استاد امجد اسلام ذرگر</span></div><div className="family-person"><img src="/talha-portrait.jpg" alt="Talha Islam"/><span>طلحہ اسلام</span></div></div><h1>Jewellery that<br/><em>tells your story.</em></h1><p className="hero-text">Discover timeless pieces, thoughtfully chosen to celebrate your most meaningful moments.</p><a className="gold-btn" href="#collection">Explore Collection <ArrowUpRight size={16}/></a><div className="hero-note"><span className="note-line"/> CRAFTED FOR YOUR FOREVER</div></div>
+        <div className="hero-copy"><p className="eyebrow"><span/> EST. WITH ELEGANCE</p><div className="family-portraits"><div className="family-person"><img src="ustad-amjad-portrait.png" alt="Ustad Amjad Islam Zargar"/><span>استاد امجد اسلام ذرگر</span></div><div className="family-person"><img src="/talha-portrait.png" alt="Talha Islam"/><span>طلحہ اسلام</span></div></div><h1>Jewellery that<br/><em>tells your story.</em></h1><p className="hero-text">Discover timeless pieces, thoughtfully chosen to celebrate your most meaningful moments.</p><a className="gold-btn" href="#collection">Explore Collection <ArrowUpRight size={16}/></a><div className="hero-note"><span className="note-line"/> CRAFTED FOR YOUR FOREVER</div></div>
         <div className="hero-art"><div className="art-glow"/><div className="art-frame"><div className="art-inner"><Gem size={94} strokeWidth={0.75}/><span>TIMELESS<br/>BEAUTY</span></div></div><div className="art-caption">THE ART OF ADORNMENT <b>01 / 03</b></div></div>
       </section>
 
