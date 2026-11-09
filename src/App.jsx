@@ -157,9 +157,21 @@ function App() {
 
     <main>
       <section className="hero" id="home">
-        <div className="hero-copy"><p className="eyebrow"><span/> EST. WITH ELEGANCE</p><div className="family-portraits"><div className="family-person"><img src="ustad-amjad-portrait.png" alt="Ustad Amjad Islam Zargar"/><span>استاد امجد اسلام ذرگر</span></div><div className="family-person"><img src="/talha-portrait.png" alt="Talha Islam"/><span>طلحہ اسلام</span></div></div><h1>Jewellery that<br/><em>tells your story.</em></h1><p className="hero-text">Discover timeless pieces, thoughtfully chosen to celebrate your most meaningful moments.</p><a className="gold-btn" href="#collection">Explore Collection <ArrowUpRight size={16}/></a><div className="hero-note"><span className="note-line"/> CRAFTED FOR YOUR FOREVER</div></div>
-        <div className="hero-art"><div className="art-glow"/><div className="art-frame"><div className="art-inner"><Gem size={94} strokeWidth={0.75}/><span>TIMELESS<br/>BEAUTY</span></div></div><div className="art-caption">THE ART OF ADORNMENT <b>01 / 03</b></div></div>
-      </section>
+        <div className="hero-art">
+  <div className="showcase-image">
+    <img src="/jewelry-showcase-1.jpg" alt="Talha Jewelers Collection"/>
+  </div>
+
+  <div className="showcase-copy">
+    <p className="eyebrow">THE ART OF ADORNMENT</p>
+    <h2>Elegance in Every Detail</h2>
+    <p>A celebration of timeless craftsmanship, refined design and beauty made to be cherished.</p>
+  </div>
+
+  <div className="showcase-image">
+    <img src="/jewelry-showcase-2.jpg" alt="Talha Jewelers Collection"/>
+  </div>
+</div>      </section>
 
       <section className="ticker"><span>TIMELESS DESIGN</span><i>✦</i><span>EVERLASTING VALUE</span><i>✦</i><span>MADE TO BE YOURS</span><i>✦</i><span>TIMELESS DESIGN</span></section>
 
